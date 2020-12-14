@@ -127,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "mediumclone-angular"
+  "defaultProject": "mediumclone-angular",
+  "cli": {
+    "analytics": false
+  }
 }
