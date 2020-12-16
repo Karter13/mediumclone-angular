@@ -5,7 +5,7 @@ import {catchError, map, switchMap} from 'rxjs/operators';
 import {AuthService} from '../../services/auth.service';
 import {CurrentUserInterface} from '../../../shared/types/currentUser.interface';
 import {of} from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Injectable()
 export class RegisterEffect {
@@ -14,6 +14,9 @@ export class RegisterEffect {
     switchMap(({request}) => {
       return this.authService.register(request).pipe(
         map((currentUser: CurrentUserInterface) => {
+
+          // window.localStorage.setItem('accessToken', currentUser.token);
+
           return registerSuccessAction({currentUser});
         }),
         catchError((errorResponse: HttpErrorResponse) => {
