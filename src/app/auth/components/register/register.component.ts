@@ -4,10 +4,11 @@ import {select, Store} from '@ngrx/store';
 
 import {registerAction} from '../../store/actions/register.action';
 import {Observable} from 'rxjs';
-import {isSubmittingSelector} from '../../store/selectors';
+import {isSubmittingSelector, validationErrorsSelector} from '../../store/selectors';
 import {AuthService} from '../../services/auth.service';
 import {CurrentUserInterface} from '../../../shared/types/currentUser.interface';
 import {RegisterRequestInterface} from '../../types/registerRequest.interface';
+import {BackendErrorsInterface} from '../../../shared/types/backendErrors.interface';
 
 @Component({
   selector: 'app-register',
@@ -19,6 +20,7 @@ export class RegisterComponent implements OnInit {
 
   form!: FormGroup;
   isSubmitting$: Observable<boolean> | undefined;
+  backendErrors$: Observable<BackendErrorsInterface | null> | undefined;
 
   constructor(
     private fb: FormBuilder,
@@ -38,7 +40,11 @@ export class RegisterComponent implements OnInit {
         // @ts-ignore
         select(isSubmittingSelector)
       );
-    console.log(this.isSubmitting$);
+    this.backendErrors$ = this.store
+      .pipe(
+        // @ts-ignore
+        select(validationErrorsSelector)
+      );
   }
 
   initializeForm(): void {
